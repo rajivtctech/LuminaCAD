@@ -1,6 +1,6 @@
 # LuminaCAD User Guide
 
-**LuminaCAD 1.5** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.6, 25 October 2026
+**LuminaCAD 1.6** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.7, 26 October 2026
 
 ![The LuminaCAD window](img/main-window.png)
 
@@ -95,7 +95,7 @@ Both downloads are on the **Releases** page of the LuminaCAD GitHub repository (
 
 ### 4.1 Windows 10 and 11
 
-1. Download `luminacad-1.5.0-windows-x64.zip`.
+1. Download `luminacad-1.6.0-windows-x64.zip`.
 2. Right-click the zip, choose **Extract All…**, and extract it somewhere permanent, for example `Documents\LuminaCAD`. Don't run it from inside the zip.
 3. Open the extracted folder and double-click **luminacad.exe**.
 4. The first time, Windows may show **"Windows protected your PC"**. This appears for any new program that is not yet widely downloaded. Click **More info**, then **Run anyway**. Windows remembers your choice.
@@ -111,12 +111,12 @@ luminacad-cli.exe --selftest
 
 ### 4.2 Linux
 
-1. Download `luminacad-1.5.0-linux-x86_64.tar.gz`.
+1. Download `luminacad-1.6.0-linux-x86_64.tar.gz`.
 2. Unpack it and run the installer. Open a terminal and type:
 
    ```
-   tar xzf luminacad-1.5.0-linux-x86_64.tar.gz
-   cd luminacad-1.5.0-linux-x86_64
+   tar xzf luminacad-1.6.0-linux-x86_64.tar.gz
+   cd luminacad-1.6.0-linux-x86_64
    ./install.sh
    ```
 
@@ -134,14 +134,14 @@ Each download has a `.sha256` file beside it on the release page. To confirm a d
 - **Windows (PowerShell):**
 
   ```
-  Get-FileHash luminacad-1.5.0-windows-x64.zip
+  Get-FileHash luminacad-1.6.0-windows-x64.zip
   ```
 
   Compare the hash it prints with the one in the `.sha256` file.
 - **Linux:** run the following in the folder that holds both files. It should print `OK`.
 
   ```
-  sha256sum -c luminacad-1.5.0-linux-x86_64.tar.gz.sha256
+  sha256sum -c luminacad-1.6.0-linux-x86_64.tar.gz.sha256
   ```
 
 ### 4.4 Screen size and UI scale
@@ -289,6 +289,7 @@ The faces are truly flat between the corners, which is what you want for a litho
 | **Mesh resolution** | How finely the shape is divided. **Draft**, **High** and **Ultra** use a fixed number of points whatever the size: good for everyday shades. The **detail modes** (**Fine · 1 mm**, **Extra fine · 0.5 mm**, **Ultra fine · 0.3 mm**) space the points by millimetres, so large shades get as much lithophane detail as small ones (§20.1). |
 | **Invert (negative relief)** | Swaps thick and thin, for a photo-negative effect. |
 | **Mirror photo** | Flips each photo left to right, for example to correct a mirrored scan or text. |
+| **Relief side** | Where the thickness changes. **Inside · smooth outside** (the default) keeps the outer surface smooth: switched off, the lamp looks like a plain shade and is easy to dust. **Outside · raised relief** shows the picture as a relief you can see and touch even when the lamp is off. Lit, both look the same. |
 
 ## 10. Section 2: Shade dimensions & silhouette
 
@@ -501,7 +502,9 @@ luminacad --license-status
 | Deeper shadows, more contrast | Raise **Max wall** (3.0–3.5 mm) |
 | More detail | A **detail mode** (§20.1), and print at 0.12 mm layers |
 | Less fragile panels | Raise **Min wall** to 1.0 mm and the **Panel frame border** to 12–15 % |
-| A picture that reads correctly from outside | Leave **Mirror photo** off (LuminaCAD puts the relief on the outside, so pictures read correctly) |
+| A picture that reads correctly from outside | Leave **Mirror photo** off. LuminaCAD lays photos out to read correctly from outside, whichever side the relief is on. |
+| A plain-looking shade when switched off | **Relief side: Inside** (the default) |
+| A visible relief when switched off | **Relief side: Outside** |
 
 Turn **Bulb: ON** and lower the **Bulb brightness** to judge the picture as it will look in a dim room.
 
@@ -607,6 +610,8 @@ It ends with `self-test: all checks passed`. If you report a problem, include th
 | Min wall | 0.4–2.0 mm | 0.1 | 0.8 |
 | Max wall | 1.6–5.0 mm | 0.1 | 2.8 |
 | Frame border | 3–25 % | 1 | 10 |
+| Mesh resolution | Draft / High / Ultra, or detail 1 / 0.5 / 0.3 mm | | High |
+| Relief side | Inside (smooth outside) / Outside | | Inside |
 | Socket hole | 10–65 mm | 0.5 | 40.5 |
 | Spokes | 3–6 | 1 | 4 |
 | Ring height | 3–12 mm | 0.5 | 5 |
@@ -655,8 +660,11 @@ With phase p = (2πu + twist·v)·ribs, where u is the angle fraction round the 
 
 ### B.5 Wall and lithophane
 
-- **Inner and outer radius.** Inner radius = max(8, profile·face factor + pattern − base wall/2). Outer radius = inner radius + local wall.
-- **Local wall.** In the frame border it is max(base wall, max wall). Inside the picture it is min + (1 − L)·(max − min), where L is the luminance (0–1) sampled bilinearly from the 128 × 128 map. With Invert, it uses L instead of (1 − L). Within 4 % of the picture edge it blends linearly towards max wall.
+- **Inner and outer radius.** Let mid = profile · face factor + pattern offset (the wall's centre line).
+  - **Relief inside** (default): outer = mid + base wall/2 and inner = outer − local wall, so the outside is smooth.
+  - **Relief outside:** inner = max(8, mid − base wall/2) and outer = inner + local wall.
+  - A plain wall (local wall = base wall) is the same either way.
+- **Local wall.** In the frame border it is max(base wall, max wall). Inside the picture it is min + (1 − L)·(max − min), where L is the luminance (0–1) sampled bilinearly from the face's relief map (§B.6). With Invert, it uses L instead of (1 − L). Within 4 % of the picture edge it blends linearly towards max wall.
 
 ### B.6 Mesh
 
@@ -690,6 +698,7 @@ luminacad --export-stl OUT.stl [options]     export without opening a window
     --preset lithophane|hex-litho|pleated|lotus|origami|vase
     --height MM                              limited to the edition and printer maximum
     --detail MM                              detail mode spacing (1, 0.5, 0.3); 0 = fixed grid
+    --relief inside|outside                  which side of the wall carries the lithophane relief
     --printer NAME                           use one of your printer profiles
     --build-volume X,Y,Z                     use this build volume for this run only
     --photo FILE [FILE ...]                  one photo for all faces, or one per face
@@ -791,7 +800,7 @@ A `.lcad` file is UTF-8 text, one `key=value` per line, so it can be read, compa
 | `profile`, `pattern`, `fitter`, `photo_fit` | Option numbers, in the order the lists show them, starting at 0 |
 | `flat_sides`, `ribs`, `spokes`, `mesh_resolution` | Whole numbers |
 | `detail_mm` | Detail-mode spacing in mm; 0 = the fixed grid given by `mesh_resolution` |
-| `lithophane`, `invert`, `mirror` | 1 = on, 0 = off |
+| `lithophane`, `invert`, `mirror`, `relief_inside` | 1 = on, 0 = off. A file without `relief_inside` (made before 1.6) has its relief outside. |
 | `filament` | Preview colour swatch, 0–5 |
 | `printer` | Name of the printer profile it was made for |
 | `slot0` … `slot7` | `sample:N` for built-in picture N, or `image:N` for embedded photo N |
