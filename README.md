@@ -7,7 +7,7 @@
 LuminaCAD is a parametric lamp-shade designer:
 
 - **Shapes:** round shades or flat-sided lanterns (3 to 8 faces) in six silhouettes.
-- **Photo lithophanes:** photos pressed into the panels as relief, so they appear when the lamp is lit.
+- **Photo lithophanes:** photos pressed into the panels as relief, so they appear when the lamp is lit, with detail modes down to 0.3 mm for large shades.
 - **Surface patterns:** ribs, pleats, scallops and origami facets, with an optional helical twist.
 - **Socket ring:** a built-in fitter for E27, E14 or harp fittings.
 - **Live preview:** a 3D view lit by a virtual bulb.
@@ -22,13 +22,13 @@ LuminaCAD is a parametric lamp-shade designer:
 
 From [Releases](../../releases/latest):
 
-**Windows 10 / 11:** `luminacad-1.4.0-windows-x64.zip`. Extract it anywhere and double-click `luminacad.exe`; there is no installer and no admin rights are needed. To open `.lcad` designs by double-clicking, click **?** → **Open .lcad files with LuminaCAD** once. If Windows says *"Windows protected your PC"*, click **More info**, then **Run anyway**.
+**Windows 10 / 11:** `luminacad-1.5.0-windows-x64.zip`. Extract it anywhere and double-click `luminacad.exe`; there is no installer and no admin rights are needed. To open `.lcad` designs by double-clicking, click **?** → **Open .lcad files with LuminaCAD** once. If Windows says *"Windows protected your PC"*, click **More info**, then **Run anyway**.
 
-**Linux:** `luminacad-1.4.0-linux-x86_64.tar.gz`. Needs glibc 2.35 or newer (Ubuntu 22.04+, Debian 12+, Fedora 36+, Mint 21+), on an X11 or Wayland desktop.
+**Linux:** `luminacad-1.5.0-linux-x86_64.tar.gz`. Needs glibc 2.35 or newer (Ubuntu 22.04+, Debian 12+, Fedora 36+, Mint 21+), on an X11 or Wayland desktop.
 
 ```
-tar xzf luminacad-1.4.0-linux-x86_64.tar.gz
-cd luminacad-1.4.0-linux-x86_64
+tar xzf luminacad-1.5.0-linux-x86_64.tar.gz
+cd luminacad-1.5.0-linux-x86_64
 ./install.sh
 ```
 

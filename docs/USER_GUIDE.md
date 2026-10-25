@@ -1,6 +1,6 @@
 # LuminaCAD User Guide
 
-**LuminaCAD 1.4** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.5, 25 October 2026
+**LuminaCAD 1.5** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.6, 25 October 2026
 
 ![The LuminaCAD window](img/main-window.png)
 
@@ -95,7 +95,7 @@ Both downloads are on the **Releases** page of the LuminaCAD GitHub repository (
 
 ### 4.1 Windows 10 and 11
 
-1. Download `luminacad-1.4.0-windows-x64.zip`.
+1. Download `luminacad-1.5.0-windows-x64.zip`.
 2. Right-click the zip, choose **Extract All…**, and extract it somewhere permanent, for example `Documents\LuminaCAD`. Don't run it from inside the zip.
 3. Open the extracted folder and double-click **luminacad.exe**.
 4. The first time, Windows may show **"Windows protected your PC"**. This appears for any new program that is not yet widely downloaded. Click **More info**, then **Run anyway**. Windows remembers your choice.
@@ -111,12 +111,12 @@ luminacad-cli.exe --selftest
 
 ### 4.2 Linux
 
-1. Download `luminacad-1.4.0-linux-x86_64.tar.gz`.
+1. Download `luminacad-1.5.0-linux-x86_64.tar.gz`.
 2. Unpack it and run the installer. Open a terminal and type:
 
    ```
-   tar xzf luminacad-1.4.0-linux-x86_64.tar.gz
-   cd luminacad-1.4.0-linux-x86_64
+   tar xzf luminacad-1.5.0-linux-x86_64.tar.gz
+   cd luminacad-1.5.0-linux-x86_64
    ./install.sh
    ```
 
@@ -134,14 +134,14 @@ Each download has a `.sha256` file beside it on the release page. To confirm a d
 - **Windows (PowerShell):**
 
   ```
-  Get-FileHash luminacad-1.4.0-windows-x64.zip
+  Get-FileHash luminacad-1.5.0-windows-x64.zip
   ```
 
   Compare the hash it prints with the one in the `.sha256` file.
 - **Linux:** run the following in the folder that holds both files. It should print `OK`.
 
   ```
-  sha256sum -c luminacad-1.4.0-linux-x86_64.tar.gz.sha256
+  sha256sum -c luminacad-1.5.0-linux-x86_64.tar.gz.sha256
   ```
 
 ### 4.4 Screen size and UI scale
@@ -286,7 +286,7 @@ The faces are truly flat between the corners, which is what you want for a litho
 | **Min wall (brightest)** | Plastic thickness where the photo is white. Thinner gives brighter highlights but a more fragile wall. 0.8 mm is a good start. |
 | **Max wall (darkest)** | Thickness where the photo is black. Thicker gives deeper shadows. 2.8 mm is a good start. |
 | **Panel frame border** | A solid frame around each picture, as a percentage of the panel. It strengthens the panel and its edges. |
-| **Mesh resolution** | How finely the shape is divided. **High** suits most shades. **Ultra** gives sharper lithophane detail (about twice the triangles). **Draft** is for quick experiments. |
+| **Mesh resolution** | How finely the shape is divided. **Draft**, **High** and **Ultra** use a fixed number of points whatever the size: good for everyday shades. The **detail modes** (**Fine · 1 mm**, **Extra fine · 0.5 mm**, **Ultra fine · 0.3 mm**) space the points by millimetres, so large shades get as much lithophane detail as small ones (§20.1). |
 | **Invert (negative relief)** | Swaps thick and thin, for a photo-negative effect. |
 | **Mirror photo** | Flips each photo left to right, for example to correct a mirrored scan or text. |
 
@@ -369,7 +369,7 @@ LuminaCAD needs to know your printer's **build volume**: how far it prints acros
 - **Reset view** frames the whole shade;
 - the cut-away and zoom range scale with it.
 
-Lithophane panels keep the same photo detail (a 128 × 128 relief per face) at any size, so very large lithophanes look softer. Patterned shades are not affected.
+For lithophanes on large shades, choose a **detail mode** (§20.1); the fixed grids spread the same number of points over the whole shade, so a large lithophane would look soft.
 
 ## 14. Diagnostics and the 2D profile
 
@@ -402,8 +402,8 @@ The window title shows the design's name. A **•** before it (and **Save •**)
 - **Sharing.** A design is one file: e-mail it, or keep it with your other projects. Anyone with LuminaCAD can open it.
 - **Free and Pro.** Both editions open every design. A design made taller than 150 mm in Pro opens in the free edition at 150 mm, and the status bar says so. If you then save it from the free edition, it is saved at 150 mm.
 - **File size.**
-  - Each photo is stored once, even if it is used on several faces, at up to 800 pixels on its longest side (far more detail than a lithophane panel can show).
-  - A design with the sample pictures is under 1 KB; one with four photos is typically 0.5–1 MB.
+  - Each photo is stored once, even if it is used on several faces, at up to 2048 pixels on its longest side, enough for the finest detail mode on large shades.
+  - A design with the sample pictures is under 1 KB; one with photos is typically 1–5 MB per photo.
 - **Damaged files.** If a photo inside a design is damaged, LuminaCAD opens the rest of the design, puts a sample picture on that face, and tells you.
 
 ### 15.2 Exporting the STL
@@ -499,11 +499,33 @@ luminacad --license-status
 |---|---|
 | Brighter highlights | Lower **Min wall** (no less than 0.6 mm on most printers) |
 | Deeper shadows, more contrast | Raise **Max wall** (3.0–3.5 mm) |
-| More detail | **Mesh resolution: Ultra**, and print at 0.12 mm layers |
+| More detail | A **detail mode** (§20.1), and print at 0.12 mm layers |
 | Less fragile panels | Raise **Min wall** to 1.0 mm and the **Panel frame border** to 12–15 % |
 | A picture that reads correctly from outside | Leave **Mirror photo** off (LuminaCAD puts the relief on the outside, so pictures read correctly) |
 
 Turn **Bulb: ON** and lower the **Bulb brightness** to judge the picture as it will look in a dim room.
+
+### 20.1 Detail modes for large shades
+
+The **Mesh resolution** list (section 1 of the settings) has three detail modes besides Draft, High and Ultra:
+
+| Mode | Point spacing | Use for |
+|---|---|---|
+| **Fine · 1 mm** | 1 mm | Large shades, and lithophanes viewed from a distance |
+| **Extra fine · 0.5 mm** | 0.5 mm | Large lithophanes viewed close up |
+| **Ultra fine · 0.3 mm** | 0.3 mm | Small lithophanes with very fine detail (print at 0.12 mm layers with a 0.4 mm nozzle) |
+
+The fixed grids divide every shade into the same number of points. A 150 mm lantern gets a point about every 1–2 mm, but a 1.2 m shade only every 10 mm or so, which blurs a lithophane. The detail modes keep the spacing the same at any size:
+
+![High grid compared with 0.5 mm detail on a 1.2 m shade](img/detail-compare.png)
+
+*The same panel of a 1.2 m hexagonal lithophane: High (left) and Extra fine (right).*
+
+- **The 3D view stays quick.** It shows a lighter version of the shade (up to 250 000 triangles). The full detail is built when you export, while a "Building the detailed mesh…" notice shows; even very large shades take only a few seconds.
+- **Triangle count.** In a detail mode the diagnostics show **Export triangles** and the spacing the STL will have, for example *1.2 M · 0.5 mm*.
+- **Size limit.** An STL is limited to 6 million triangles (about 300 MB), which slicers handle comfortably. On very large shades the finest modes reach that limit. The panel then shows **Export (capped)** in amber with the spacing actually achieved, and the export message says so. A coarser mode then gives the same result faster.
+- **Photo detail.** Photos are kept at up to 2048 pixels on their longest side. For the sharpest large lithophanes, use photos at least that size.
+- **Photo proportions.** Each face's relief has the panel's real proportions, so photos are never stretched to fit; **Photo fit** decides how the photo meets the panel's shape.
 
 ## 21. Designing for the printer
 
@@ -638,7 +660,10 @@ With phase p = (2πu + twist·v)·ribs, where u is the angle fraction round the 
 
 ### B.6 Mesh
 
-- **Grid size.** There are segV = round(0.55·R) rings of segU columns. For a round shade segU = R; for n faces it is R rounded up to a multiple of n. R is the mesh resolution: 120, 192 or 264.
+- **Fixed grids** (Draft, High, Ultra). There are segV = round(0.55·R) rings of segU columns, where R is 120, 192 or 264. For a round shade segU = R; for n faces it is R rounded up to a multiple of n.
+- **Detail modes.** segU = ⌈widest circumference / spacing⌉ (a multiple of n on flat-sided shades) and segV = ⌈height / spacing⌉.
+  - If that would exceed the triangle budget, both shrink by the same factor: 250 000 triangles for the 3D view and 6 000 000 for the STL.
+  - The **relief map** for each face has the panel's own proportions (width at mid-height × height, inside the frame). It is 128 px on its long side for the fixed grids, or one pixel per detail step (at most 4096) in the detail modes.
 - **Vertices.** Each grid point has an outer and an inner vertex. The columns wrap round, so the seam is closed. The top and bottom rims join the inner and outer walls.
 - **Triangles.** The count is 4·segU·segV + 4·segU, plus 384 for the ring and 12 per spoke.
 
@@ -664,6 +689,7 @@ luminacad --save-design OUT.lcad [options]   build a design from a preset/photos
 luminacad --export-stl OUT.stl [options]     export without opening a window
     --preset lithophane|hex-litho|pleated|lotus|origami|vase
     --height MM                              limited to the edition and printer maximum
+    --detail MM                              detail mode spacing (1, 0.5, 0.3); 0 = fixed grid
     --printer NAME                           use one of your printer profiles
     --build-volume X,Y,Z                     use this build volume for this run only
     --photo FILE [FILE ...]                  one photo for all faces, or one per face
@@ -764,6 +790,7 @@ A `.lcad` file is UTF-8 text, one `key=value` per line, so it can be read, compa
 | `frame_border` | Fraction of the panel (0.10 = 10 %) |
 | `profile`, `pattern`, `fitter`, `photo_fit` | Option numbers, in the order the lists show them, starting at 0 |
 | `flat_sides`, `ribs`, `spokes`, `mesh_resolution` | Whole numbers |
+| `detail_mm` | Detail-mode spacing in mm; 0 = the fixed grid given by `mesh_resolution` |
 | `lithophane`, `invert`, `mirror` | 1 = on, 0 = off |
 | `filament` | Preview colour swatch, 0–5 |
 | `printer` | Name of the printer profile it was made for |
