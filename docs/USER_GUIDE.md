@@ -1,6 +1,6 @@
 # LuminaCAD User Guide
 
-**LuminaCAD 1.3** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.4, 25 October 2026
+**LuminaCAD 1.4** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.5, 25 October 2026
 
 ![The LuminaCAD window](img/main-window.png)
 
@@ -84,7 +84,7 @@ A lamp combines mains electricity, heat and plastic. Please read this before you
 | A computer | Windows 10 or 11 (64-bit), or Linux with a desktop (Ubuntu 22.04+, Debian 12+, Fedora 36+, Mint 21+; X11 or Wayland) |
 | LuminaCAD | Free edition: download and run |
 | A slicer | Any slicer that reads STL |
-| A 3D printer | Most beds of 180 mm and up; see "Fits bed" in §14 |
+| A 3D printer | Any FDM printer; tell LuminaCAD its build volume (§13.1) |
 | Filament | White or natural PLA for lithophanes; any colour for patterned shades |
 | A lamp fitting | E27 or E14 holder with cord or pendant, certified for your country |
 | An LED bulb | About 9 W or less (see §2) |
@@ -95,7 +95,7 @@ Both downloads are on the **Releases** page of the LuminaCAD GitHub repository (
 
 ### 4.1 Windows 10 and 11
 
-1. Download `luminacad-1.3.0-windows-x64.zip`.
+1. Download `luminacad-1.4.0-windows-x64.zip`.
 2. Right-click the zip, choose **Extract All…**, and extract it somewhere permanent, for example `Documents\LuminaCAD`. Don't run it from inside the zip.
 3. Open the extracted folder and double-click **luminacad.exe**.
 4. The first time, Windows may show **"Windows protected your PC"**. This appears for any new program that is not yet widely downloaded. Click **More info**, then **Run anyway**. Windows remembers your choice.
@@ -111,12 +111,12 @@ luminacad-cli.exe --selftest
 
 ### 4.2 Linux
 
-1. Download `luminacad-1.3.0-linux-x86_64.tar.gz`.
+1. Download `luminacad-1.4.0-linux-x86_64.tar.gz`.
 2. Unpack it and run the installer. Open a terminal and type:
 
    ```
-   tar xzf luminacad-1.3.0-linux-x86_64.tar.gz
-   cd luminacad-1.3.0-linux-x86_64
+   tar xzf luminacad-1.4.0-linux-x86_64.tar.gz
+   cd luminacad-1.4.0-linux-x86_64
    ./install.sh
    ```
 
@@ -134,14 +134,14 @@ Each download has a `.sha256` file beside it on the release page. To confirm a d
 - **Windows (PowerShell):**
 
   ```
-  Get-FileHash luminacad-1.3.0-windows-x64.zip
+  Get-FileHash luminacad-1.4.0-windows-x64.zip
   ```
 
   Compare the hash it prints with the one in the `.sha256` file.
 - **Linux:** run the following in the folder that holds both files. It should print `OK`.
 
   ```
-  sha256sum -c luminacad-1.3.0-linux-x86_64.tar.gz.sha256
+  sha256sum -c luminacad-1.4.0-linux-x86_64.tar.gz.sha256
   ```
 
 ### 4.4 Screen size and UI scale
@@ -176,7 +176,7 @@ On small screens (1024 × 768, 1366 × 768 at 100 %) LuminaCAD rearranges itself
 
 **Left column:**
 
-- **View toolbar:** turn the bulb on or off, show the wireframe (the triangles the shape is made of), reset the view, set the bulb's brightness, cut the shade open with **Slice X cutaway**, and choose your printer's bed size.
+- **View toolbar:** turn the bulb on or off, show the wireframe (the triangles the shape is made of), reset the view, set the bulb's brightness, cut the shade open with **Slice X cutaway**, and choose your **printer** (§13.1).
 - **3D view:** drag with the left mouse button to turn the shade, drag with the right button to move the view up or down, and use the wheel to zoom. The badge at the top right shows your edition's height limit.
 - **3D printability & mesh diagnostics:** the overall size, wall thickness, estimated weight of plastic, triangle count and whether the shade fits your bed. Below them are **filament colour** swatches, which change the preview colour only.
 - **2D wall profile:** the shade's outline from the side, with its height and top and bottom diameters.
@@ -207,7 +207,7 @@ This walk-through makes a four-sided photo lantern with a different photo on eac
 4. **Check the faces.** The thumbnails show the part of each photo that will be used. If heads are cut off, change **Photo fit** to **Contain whole photo** (§9.2).
 5. **Set the size.** In section 2, drag **Total height**, or **double-click the words "Total height"** and type a number, then press Enter. The free edition goes up to 150 mm. Set the bottom and top diameters the same way.
 6. **Choose the socket.** In section 4, click **E27 40.5** for a standard large screw bulb holder, or **E14 28.5** for a small one. Measure your holder if unsure: the hole must slip over the threaded part (§12).
-7. **Check the fit.** In the diagnostics, the badge should say **Fits … build plate**. If it says **Exceeds … bed!**, choose your printer in the toolbar's bed list, then reduce the diameters or height.
+7. **Check the fit.** Choose your printer in the toolbar's printer list (§13.1). In the diagnostics, the badge should say **Fits** followed by your printer's name. If it says **Too big for …**, reduce the diameters, rib depth or bulge.
 8. **Export.** Click **Export STL** (top right), choose a folder, keep or change the name, and press **Save**.
 9. **Print it**, as described next.
 
@@ -294,9 +294,9 @@ The faces are truly flat between the corners, which is what you want for a litho
 
 | Setting | Meaning |
 |---|---|
-| **Total height** | 70 mm up to 150 mm (Free) or 280 mm (Pro). In the free edition the part of the slider above 150 mm is hatched and marked **PRO**. |
+| **Total height** | From 70 mm up to your printer's Z height (Pro), or up to 150 mm (Free). In the free edition the part of the slider above 150 mm is hatched and marked **PRO**. |
 | **Base wall thickness** | Thickness of the wall where there is no lithophane (and of the whole wall when the lithophane is off). |
-| **Bottom / top diameter** | Across the shade, at the bottom and top, measured to the corners on a flat-sided shade. |
+| **Bottom / top diameter** | Across the shade, at the bottom and top, measured to the corners on a flat-sided shade. Up to the smaller of your printer's X and Y. |
 | **Vertical profile** | The side outline: **Linear taper** (straight), **Classic bell**, **Hourglass waist**, **Bulbous lantern**, **Tulip blossom**, **Pagoda tiered**. Watch the 2D profile change. |
 | **Profile bulge** | How strongly the profile curves outward (positive) or inward (negative). |
 
@@ -335,11 +335,41 @@ Patterns and lithophanes can be combined, but a photo on a ribbed panel is hard 
 | **Bulb brightness** | Brighter or dimmer virtual bulb (preview only) |
 | **Wireframe** | Shows the triangles that make the shape |
 | **Slice X cutaway** | Cuts the shade open so you can see the wall thickness, the bulb and the spider. Slide fully right to switch it off. |
-| **Bed list** | Your printer's bed size, for the grid and the "Fits bed" check |
+| **Printer list** | Your printer: sets the size limits, the bed grid and the build-volume box, and the "Fits" check (§13.1) |
 
 ![Cutaway view](img/cutaway.png)
 
 The picture sharpens a moment after you stop dragging. While you drag, LuminaCAD draws a quicker preview so it stays smooth.
+
+### 13.1 Printers
+
+LuminaCAD needs to know your printer's **build volume**: how far it prints across (X), front to back (Y) and up (Z). The printer you choose:
+
+- **sets the size limits.** Heights go up to its Z (in the free edition, up to 150 mm at most). Diameters go up to the smaller of X and Y, because a round shade must fit both ways.
+- **draws its bed** in the 3D view, with a faint box showing the full build volume;
+- **sets the "Fits" check** in the diagnostics.
+
+**Choosing a printer.** Click the printer list in the view toolbar (it shows the name and X × Y × Z) and pick one. LuminaCAD starts with four common printers: Prusa Mini, Ender 3 / K1C, Bambu X1 / P1 / A1 and Ender-3 V3 Plus.
+
+**Adding your printers.** Choose **Manage printers…** at the bottom of the list:
+
+![Printers](img/printers-dialog.png)
+
+1. Click **+ Add printer**, type a name (for example *Modix BIG-60* or *Workshop Voron*), press **Tab**, and type the X, Y and Z build sizes in millimetres. Your printer's specification sheet lists them as *build volume* or *print size*.
+2. Edit any row the same way. Clicking or tabbing into a field and typing replaces what is there.
+3. **×** deletes a printer. **Restore defaults** brings back the four standard printers.
+4. Click **Save**.
+
+- **Limits.** Sizes can be from 60 mm (X, Y) or 70 mm (Z) up to 2000 mm. Names must be unique.
+- **Where they are kept.** Your printers are remembered in `settings.ini`.
+- **Designs.** A saved design records which printer it was made for, and opening it selects that printer again if you have it.
+
+**Very large shades (Pro).** With a large-format printer, LuminaCAD makes shades up to its full build volume:
+- the grid spacing grows to 50 or 100 mm;
+- **Reset view** frames the whole shade;
+- the cut-away and zoom range scale with it.
+
+Lithophane panels keep the same photo detail (a 128 × 128 relief per face) at any size, so very large lithophanes look softer. Patterned shades are not affected.
 
 ## 14. Diagnostics and the 2D profile
 
@@ -349,7 +379,7 @@ The picture sharpens a moment after you stop dragging. While you drag, LuminaCAD
 | **Wall range** | Thinnest to thickest wall (with the lithophane on), or the single wall thickness. |
 | **Est. PLA weight** | Plastic needed at 100 % infill, from the exact volume of the shape. With less infill it will use less. |
 | **Triangles** | Size of the 3D model. Most slicers handle a million or more. |
-| **Fits / Exceeds bed** | Green when the shade fits the bed chosen in the toolbar, red when not. |
+| **Fits / Too big for** | Green when the shade fits the printer chosen in the toolbar (widest point within X and Y, height within Z), red when not. |
 
 ## 15. Saving, opening and exporting
 
@@ -414,7 +444,7 @@ On Linux, `./install.sh` sets this up automatically.
 | | Free | Pro |
 |---|---|---|
 | Price | Free | Paid licence |
-| Shade height | 70–**150 mm** | 70–**280 mm** |
+| Shade size | up to **150 mm** tall | as large as your printer: up to its **Z** height and the smaller of its **X** and **Y**, up to 2000 mm |
 | All shapes, patterns, lithophanes, fitters, presets, export | ✓ | ✓ |
 | Program | Same | Same, with a licence file loaded |
 
@@ -429,7 +459,7 @@ There is only one program. The Pro edition is the free program with a licence fi
    ![Licence window, free edition](img/licence-dialog-free.png)
 
 4. Click **Load licence file…**, select the `.lic` file and press **Open**.
-5. The window turns green and shows your name and serial. The height slider now goes to 280 mm.
+5. The window turns green and shows your name and serial. The height slider now goes to your printer's full Z height.
 
    ![Licence window, Pro edition](img/licence-dialog-pro.png)
 
@@ -480,7 +510,7 @@ Turn **Bulb: ON** and lower the **Bulb brightness** to judge the picture as it w
 - **Overhangs:** most printers manage outward slopes up to about 45° without support. Very strong **Bulbous** or **Pagoda** profiles with large bulge values can exceed that near the bottom.
 - **Thin walls:** keep the wall at least two nozzle widths thick (0.8 mm for a 0.4 mm nozzle).
 - **Tall shades** (Pro): print slowly near the top and use a brim if the base is narrow.
-- **Bed size:** check **Fits bed**. If a shade is too wide, reduce the diameters, or the rib depth on ribbed shades.
+- **Printer size:** check the **Fits** badge. If a shade is too wide, reduce the diameters, or the rib depth on ribbed shades.
 
 ---
 
@@ -502,7 +532,8 @@ Turn **Bulb: ON** and lower the **Bulb brightness** to judge the picture as it w
 | The picture is too dark when printed | Use a brighter photo, lower **Max wall**, or use whiter filament. |
 | The picture is faint | Raise **Max wall**; print at 100 % infill; use a brighter bulb. |
 | Dark specks in the printed picture | Infill below 100 %, or gaps between walls. Use 100 % infill. |
-| "Exceeds … bed!" | Choose your printer's bed in the toolbar, then reduce the diameters or height. |
+| "Too big for …" | Choose the right printer in the toolbar; then reduce the diameters, rib depth, bulge or height. |
+| "Height … reduced to … mm: <printer> prints up to that height" | The design is taller than the printer you chose. Choose a larger printer, or add yours (§13.1). |
 | The 3D view is slow | Use **Mesh resolution: High** or **Draft** while designing, and switch to Ultra before exporting. At large UI scales the view has more pixels to draw: maximise only when needed, or lower the UI scale. |
 | Windows: double-clicking a `.lcad` file does not open LuminaCAD | Switch it on: **?** → **Open .lcad files with LuminaCAD** (§15.3). If it is on but another program still opens them, Windows is keeping an earlier "Always" choice: right-click → **Open with** → **Choose another app** → LuminaCAD. |
 | Everything is too small or too large | Use the **UI scale** list (bottom right) or **Ctrl + / Ctrl −** (§4.4). |
@@ -543,10 +574,10 @@ It ends with `self-test: all checks passed`. If you report a problem, include th
 
 | Parameter | Range | Step | Default |
 |---|---|---|---|
-| Total height | 70–150 mm (Free); 70–280 mm (Pro) | 1 | 150 |
+| Total height | 70–150 mm (Free); 70 mm to the printer's Z (Pro) | 1 | 150 |
 | Base wall | 0.8–4.5 mm | 0.1 | 2.4 |
-| Bottom diameter | 50–260 mm | 2 | 140 |
-| Top diameter | 40–260 mm | 2 | 110 |
+| Bottom diameter | 50 mm to the smaller of the printer's X and Y | 2 | 140 |
+| Top diameter | 40 mm to the smaller of the printer's X and Y | 2 | 110 |
 | Profile bulge | −40 to 50 mm | 1 | 0 |
 | Rib count | 4–72 | 1 | 24 |
 | Rib depth | 0–18 mm | 0.5 | 0 |
@@ -558,7 +589,7 @@ It ends with `self-test: all checks passed`. If you report a problem, include th
 | Spokes | 3–6 | 1 | 4 |
 | Ring height | 3–12 mm | 0.5 | 5 |
 | Bulb brightness (view) | 0–200 % | 1 | 130 |
-| Slice X (view) | −150 to 160 mm (≥158 = off) | 1 | off |
+| Slice X (view) | across the shade; fully right = off | 1 | off |
 
 Slider steps apply when dragging. A typed value is used as typed (within the range), so you can enter, say, 123.5 mm.
 
@@ -632,8 +663,11 @@ luminacad --open DESIGN.lcad ...             start from a saved design (with --e
 luminacad --save-design OUT.lcad [options]   build a design from a preset/photos and save it
 luminacad --export-stl OUT.stl [options]     export without opening a window
     --preset lithophane|hex-litho|pleated|lotus|origami|vase
-    --height MM                              limited to the edition maximum
+    --height MM                              limited to the edition and printer maximum
+    --printer NAME                           use one of your printer profiles
+    --build-volume X,Y,Z                     use this build volume for this run only
     --photo FILE [FILE ...]                  one photo for all faces, or one per face
+luminacad --printers                         list the printer profiles (* = selected)
 luminacad --register-file-type               Windows: open .lcad files with LuminaCAD (your account)
 luminacad --unregister-file-type             Windows: remove that
 luminacad --install-license FILE.lic
@@ -662,7 +696,7 @@ luminacad --export-stl lantern.stl --preset lithophane --height 140 --photo a.jp
 | Program (Linux) | `~/.local/bin/luminacad` (after `./install.sh`) |
 | Menu entry, icon (Linux) | `~/.local/share/applications/luminacad.desktop`, `~/.local/share/icons/hicolor/scalable/apps/luminacad.svg` |
 | Installed licence (Linux) | `~/.config/LuminaCAD/license.lic` (or `$XDG_CONFIG_HOME/LuminaCAD/`) |
-| Settings (UI scale) | `settings.ini` in the same folder as the licence |
+| Settings (UI scale, printers) | `settings.ini` in the same folder as the licence |
 | Designs | `.lcad` files wherever you save them (§15.1); the save window starts in Documents |
 | `.lcad` association (Windows) | `HKEY_CURRENT_USER\Software\Classes\.lcad` and `…\LuminaCAD.Design`, when switched on (§15.3) |
 
@@ -732,6 +766,7 @@ A `.lcad` file is UTF-8 text, one `key=value` per line, so it can be read, compa
 | `flat_sides`, `ribs`, `spokes`, `mesh_resolution` | Whole numbers |
 | `lithophane`, `invert`, `mirror` | 1 = on, 0 = off |
 | `filament` | Preview colour swatch, 0–5 |
+| `printer` | Name of the printer profile it was made for |
 | `slot0` … `slot7` | `sample:N` for built-in picture N, or `image:N` for embedded photo N |
 | `image0`, `image1`, … | `png:` followed by the photo as a base64-encoded PNG |
 

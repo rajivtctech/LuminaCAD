@@ -7,9 +7,10 @@ Copyright (c) 2026 T&C Technology. All rights reserved.
    from your designs.
 
 2. Pro edition
-   A Pro licence file, bought from T&C Technology, unlocks lamp shades up to 280 mm tall
-   in the same program. A Pro licence is issued to one named person or organisation, who
-   may use it on their own computers. You may not share, publish or resell a licence file.
+   A Pro licence file, bought from T&C Technology, unlocks lamp shades as large as the
+   build volume of the user's 3D printers, in the same program. A Pro licence is issued
+   to one named person or organisation, who may use it on their own computers. You may
+   not share, publish or resell a licence file.
 
 3. Redistribution
    You may pass on the unmodified LuminaCAD download package (with this licence) to others.
