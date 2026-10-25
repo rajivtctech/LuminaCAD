@@ -1,6 +1,6 @@
 # LuminaCAD User Guide
 
-**LuminaCAD 1.2** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.3, 25 October 2026
+**LuminaCAD 1.3** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.4, 25 October 2026
 
 ![The LuminaCAD window](img/main-window.png)
 
@@ -95,7 +95,7 @@ Both downloads are on the **Releases** page of the LuminaCAD GitHub repository (
 
 ### 4.1 Windows 10 and 11
 
-1. Download `luminacad-1.2.0-windows-x64.zip`.
+1. Download `luminacad-1.3.0-windows-x64.zip`.
 2. Right-click the zip, choose **Extract All…**, and extract it somewhere permanent, for example `Documents\LuminaCAD`. Don't run it from inside the zip.
 3. Open the extracted folder and double-click **luminacad.exe**.
 4. The first time, Windows may show **"Windows protected your PC"**. This appears for any new program that is not yet widely downloaded. Click **More info**, then **Run anyway**. Windows remembers your choice.
@@ -111,12 +111,12 @@ luminacad-cli.exe --selftest
 
 ### 4.2 Linux
 
-1. Download `luminacad-1.2.0-linux-x86_64.tar.gz`.
+1. Download `luminacad-1.3.0-linux-x86_64.tar.gz`.
 2. Unpack it and run the installer. Open a terminal and type:
 
    ```
-   tar xzf luminacad-1.2.0-linux-x86_64.tar.gz
-   cd luminacad-1.2.0-linux-x86_64
+   tar xzf luminacad-1.3.0-linux-x86_64.tar.gz
+   cd luminacad-1.3.0-linux-x86_64
    ./install.sh
    ```
 
@@ -134,14 +134,14 @@ Each download has a `.sha256` file beside it on the release page. To confirm a d
 - **Windows (PowerShell):**
 
   ```
-  Get-FileHash luminacad-1.2.0-windows-x64.zip
+  Get-FileHash luminacad-1.3.0-windows-x64.zip
   ```
 
   Compare the hash it prints with the one in the `.sha256` file.
 - **Linux:** run the following in the folder that holds both files. It should print `OK`.
 
   ```
-  sha256sum -c luminacad-1.2.0-linux-x86_64.tar.gz.sha256
+  sha256sum -c luminacad-1.3.0-linux-x86_64.tar.gz.sha256
   ```
 
 ### 4.4 Screen size and UI scale
@@ -365,7 +365,7 @@ A **design file** (`.lcad`) keeps everything about a lamp shade so you can come 
 | Save | Click **Save** (top right) or press **Ctrl S**. The first time, choose a folder and a name; afterwards Save updates the same file. |
 | Save under a new name | **Ctrl Shift S** |
 | Open | Click **Open** or press **Ctrl O**, then pick a `.lcad` file. |
-| Open from your desktop | On Linux, double-click a `.lcad` file (after `./install.sh`). On Windows, right-click it → **Open with** → **Choose another app** → browse to `luminacad.exe` and tick **Always**. |
+| Open from your desktop | Double-click a `.lcad` file. On Linux this works after `./install.sh`. On Windows, switch it on once: click **?** (top right) → **Open .lcad files with LuminaCAD** (§15.3). |
 
 The window title shows the design's name. A **•** before it (and **Save •**) means there are changes you have not saved. If you close LuminaCAD or open another design with unsaved changes, it asks whether to save them: **Save**, **Don't save**, or **Cancel**.
 
@@ -385,6 +385,25 @@ Click **Export STL**. In the save window:
 - If the file already exists, LuminaCAD asks you to press **Replace** to confirm.
 
 The status bar then reports the file name and triangle count. The STL is in millimetres, standing upright on the bed, ready for the slicer.
+
+
+### 15.3 Opening designs by double-clicking (Windows)
+
+The Windows version is a portable folder with no installer, so it does not take over `.lcad` files until you ask it to:
+
+1. Start LuminaCAD and click **?** (top right).
+2. Click **Open .lcad files with LuminaCAD**.
+
+From then on, `.lcad` files show the LuminaCAD design icon in File Explorer, and double-clicking one opens it in LuminaCAD.
+
+- **For your account only.** The setting applies to your Windows account and needs no administrator rights.
+- **Moving the folder.** If you move the LuminaCAD folder later, the link follows: the next time you start LuminaCAD from its new place, it updates itself.
+- **Turning it off.** Click **?** → **Stop opening .lcad files**.
+- **Command line.** The same is available as `luminacad-cli.exe --register-file-type` and `--unregister-file-type`.
+
+If you have already chosen another program for `.lcad` files through Windows' own "Open with → Always" setting, Windows keeps your choice. Pick LuminaCAD there instead: right-click the file → **Open with** → **Choose another app**.
+
+On Linux, `./install.sh` sets this up automatically.
 
 ---
 
@@ -485,6 +504,7 @@ Turn **Bulb: ON** and lower the **Bulb brightness** to judge the picture as it w
 | Dark specks in the printed picture | Infill below 100 %, or gaps between walls. Use 100 % infill. |
 | "Exceeds … bed!" | Choose your printer's bed in the toolbar, then reduce the diameters or height. |
 | The 3D view is slow | Use **Mesh resolution: High** or **Draft** while designing, and switch to Ultra before exporting. At large UI scales the view has more pixels to draw: maximise only when needed, or lower the UI scale. |
+| Windows: double-clicking a `.lcad` file does not open LuminaCAD | Switch it on: **?** → **Open .lcad files with LuminaCAD** (§15.3). If it is on but another program still opens them, Windows is keeping an earlier "Always" choice: right-click → **Open with** → **Choose another app** → LuminaCAD. |
 | Everything is too small or too large | Use the **UI scale** list (bottom right) or **Ctrl + / Ctrl −** (§4.4). |
 | The UI scale label is amber, "… fits" | The window is too small for the chosen scale; enlarge or maximise it (§4.4). |
 | The ring doesn't fit the lamp holder | Measure the threaded sleeve and set **Socket hole diameter** to that plus 0.5 mm. |
@@ -614,6 +634,8 @@ luminacad --export-stl OUT.stl [options]     export without opening a window
     --preset lithophane|hex-litho|pleated|lotus|origami|vase
     --height MM                              limited to the edition maximum
     --photo FILE [FILE ...]                  one photo for all faces, or one per face
+luminacad --register-file-type               Windows: open .lcad files with LuminaCAD (your account)
+luminacad --unregister-file-type             Windows: remove that
 luminacad --install-license FILE.lic
 luminacad --remove-license
 luminacad --license-status
@@ -642,6 +664,7 @@ luminacad --export-stl lantern.stl --preset lithophane --height 140 --photo a.jp
 | Installed licence (Linux) | `~/.config/LuminaCAD/license.lic` (or `$XDG_CONFIG_HOME/LuminaCAD/`) |
 | Settings (UI scale) | `settings.ini` in the same folder as the licence |
 | Designs | `.lcad` files wherever you save them (§15.1); the save window starts in Documents |
+| `.lcad` association (Windows) | `HKEY_CURRENT_USER\Software\Classes\.lcad` and `…\LuminaCAD.Design`, when switched on (§15.3) |
 
 ## F. Licence file format
 

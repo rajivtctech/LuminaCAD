@@ -21,13 +21,13 @@ LuminaCAD is a parametric lamp-shade designer:
 
 From [Releases](../../releases/latest):
 
-**Windows 10 / 11:** `luminacad-1.2.0-windows-x64.zip`. Extract it anywhere and double-click `luminacad.exe`; there is no installer and no admin rights are needed. If Windows says *"Windows protected your PC"*, click **More info**, then **Run anyway**.
+**Windows 10 / 11:** `luminacad-1.3.0-windows-x64.zip`. Extract it anywhere and double-click `luminacad.exe`; there is no installer and no admin rights are needed. To open `.lcad` designs by double-clicking, click **?** → **Open .lcad files with LuminaCAD** once. If Windows says *"Windows protected your PC"*, click **More info**, then **Run anyway**.
 
-**Linux:** `luminacad-1.2.0-linux-x86_64.tar.gz`. Needs glibc 2.35 or newer (Ubuntu 22.04+, Debian 12+, Fedora 36+, Mint 21+), on an X11 or Wayland desktop.
+**Linux:** `luminacad-1.3.0-linux-x86_64.tar.gz`. Needs glibc 2.35 or newer (Ubuntu 22.04+, Debian 12+, Fedora 36+, Mint 21+), on an X11 or Wayland desktop.
 
 ```
-tar xzf luminacad-1.2.0-linux-x86_64.tar.gz
-cd luminacad-1.2.0-linux-x86_64
+tar xzf luminacad-1.3.0-linux-x86_64.tar.gz
+cd luminacad-1.3.0-linux-x86_64
 ./install.sh
 ```
 
