@@ -1,0 +1,29 @@
+LuminaCAD End-User Licence
+Copyright (c) 2026 T&C Technology. All rights reserved.
+
+1. Free edition
+   You may download, install and use LuminaCAD free of charge, on any number of computers,
+   to design lamp shades up to 150 mm tall. You may sell or give away the objects you print
+   from your designs.
+
+2. Pro edition
+   A Pro licence file, bought from T&C Technology, unlocks lamp shades up to 280 mm tall
+   in the same program. A Pro licence is issued to one named person or organisation, who
+   may use it on their own computers. You may not share, publish or resell a licence file.
+
+3. Redistribution
+   You may pass on the unmodified LuminaCAD download package (with this licence) to others.
+   You may not sell the program itself.
+
+4. Restrictions
+   You may not modify, reverse-engineer or patch the program to remove or bypass the
+   edition limit or the licence check, nor create or distribute licence files.
+
+5. No warranty
+   LuminaCAD is provided "as is", without warranty of any kind. You are responsible for
+   checking that printed shades suit their lamp, bulb and location: follow the safety
+   advice in the User Guide (LED bulbs only, keep the bulb clear of the wall, use certified
+   electrical fittings). T&C Technology is not liable for any damage arising from the use
+   of the program or of objects made with it.
+
+Contact: tctech.co.in
