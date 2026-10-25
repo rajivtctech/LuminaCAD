@@ -1,6 +1,6 @@
 # LuminaCAD User Guide
 
-**LuminaCAD 1.0** · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.0, 25 October 2026
+**LuminaCAD 1.0.1** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.1, 25 October 2026
 
 ![The LuminaCAD window](img/main-window.png)
 
@@ -58,7 +58,7 @@
 
 ## 1. What LuminaCAD is
 
-LuminaCAD designs lamp shades for 3D printing. You choose a shape (round, or with 3 to 8 flat sides) and set its height and diameters. You can add ribs, pleats or a twist. A **lithophane** can also be pressed into the flat sides.
+LuminaCAD designs lamp shades for 3D printing, on Windows and Linux. You choose a shape (round, or with 3 to 8 flat sides) and set its height and diameters. You can add ribs, pleats or a twist. A **lithophane** can also be pressed into the flat sides.
 
 A lithophane is a photo made of thickness instead of ink. Where the plastic is thin, light from the bulb shines through brightly. Where it is thick, it shines through dimly. Switched off, the lamp looks like plain white plastic with a faint relief. Switched on, the photo appears.
 
@@ -80,7 +80,7 @@ A lamp combines mains electricity, heat and plastic. Please read this before you
 
 | Item | Notes |
 |---|---|
-| A computer running Linux with a desktop | Ubuntu, Debian, Fedora, Mint and others; X11 or Wayland desktops both work |
+| A computer | Windows 10 or 11 (64-bit), or Linux with a desktop (Ubuntu 22.04+, Debian 12+, Fedora 36+, Mint 21+; X11 or Wayland) |
 | LuminaCAD | Free edition: download and run |
 | A slicer | Any slicer that reads STL |
 | A 3D printer | Most beds of 180 mm and up; see "Fits bed" in §14 |
@@ -90,35 +90,67 @@ A lamp combines mains electricity, heat and plastic. Please read this before you
 
 ## 4. Installing LuminaCAD
 
-### 4.1 Download and install
+Both downloads are on the **Releases** page of the LuminaCAD GitHub repository (github.com/rajivtctech/LuminaCAD). Windows and Linux run the same program, with the same features and the same licence files.
 
-1. Download `luminacad-1.0.0-linux-x86_64.tar.gz` from the **Releases** page of the LuminaCAD GitHub repository.
+### 4.1 Windows 10 and 11
+
+1. Download `luminacad-1.0.1-windows-x64.zip`.
+2. Right-click the zip, choose **Extract All…**, and extract it somewhere permanent, for example `Documents\LuminaCAD`. Don't run it from inside the zip.
+3. Open the extracted folder and double-click **luminacad.exe**.
+4. The first time, Windows may show **"Windows protected your PC"**. This appears for any new program that is not yet widely downloaded. Click **More info**, then **Run anyway**. Windows remembers your choice.
+5. *Optional:* make a desktop shortcut. Right-click `luminacad.exe` → **Show more options** → **Send to** → **Desktop (create shortcut)**. To pin it, right-click LuminaCAD's taskbar button while it is running and choose **Pin to taskbar**.
+
+The folder also holds **luminacad-cli.exe**. It is the same program for the Command Prompt or PowerShell, used for the commands in Appendix D. For example:
+
+```
+luminacad-cli.exe --selftest
+```
+
+**To remove LuminaCAD:** delete the folder, and the shortcut if you made one. Your licence, if you installed one, stays in `%APPDATA%\LuminaCAD` until you delete that folder too.
+
+### 4.2 Linux
+
+1. Download `luminacad-1.0.1-linux-x86_64.tar.gz`.
 2. Unpack it and run the installer. Open a terminal and type:
 
    ```
-   tar xzf luminacad-1.0.0-linux-x86_64.tar.gz
-   cd luminacad-1.0.0-linux-x86_64
+   tar xzf luminacad-1.0.1-linux-x86_64.tar.gz
+   cd luminacad-1.0.1-linux-x86_64
    ./install.sh
    ```
 
    This copies the program to `~/.local/bin`, adds **LuminaCAD** to your application menu under **Graphics**, and runs the built-in self-test. It needs no administrator rights.
 3. Start LuminaCAD from the menu, or by typing `luminacad` in a terminal.
 
-**Requirements:** 64-bit Linux with glibc 2.35 or newer: Ubuntu 22.04 and later, Debian 12, Fedora 36, Linux Mint 21 and their successors.
+The Linux version needs glibc 2.35 or newer: Ubuntu 22.04 and later, Debian 12, Fedora 36, Linux Mint 21 and their successors. It draws through X11. On a Wayland desktop (Ubuntu's default, KDE Plasma 6, GNOME) it runs through XWayland, which every mainstream Wayland desktop provides, so you need do nothing.
 
-**To remove LuminaCAD:** run `./install.sh --remove` from the unpacked folder. Your licence, if you installed one, stays in `~/.config/LuminaCAD` until you delete it.
+**To remove LuminaCAD:** run `./install.sh --remove` from the unpacked folder. Your licence stays in `~/.config/LuminaCAD` until you delete it.
 
-### 4.2 Checking the download
+### 4.3 Checking the download
 
-The release page also has a `.sha256` file. To confirm the download is complete and unaltered, run the following in the folder that holds both files. It should print `OK`.
+Each download has a `.sha256` file beside it on the release page. To confirm a download is complete and unaltered:
 
-```
-sha256sum -c luminacad-1.0.0-linux-x86_64.tar.gz.sha256
-```
+- **Windows (PowerShell):**
 
-### 4.3 Wayland desktops
+  ```
+  Get-FileHash luminacad-1.0.1-windows-x64.zip
+  ```
 
-LuminaCAD draws through X11. On a Wayland desktop (Ubuntu's default, KDE Plasma 6, GNOME) it runs through XWayland, which every mainstream Wayland desktop provides. You need not do anything.
+  Compare the hash it prints with the one in the `.sha256` file.
+- **Linux:** run the following in the folder that holds both files. It should print `OK`.
+
+  ```
+  sha256sum -c luminacad-1.0.1-linux-x86_64.tar.gz.sha256
+  ```
+
+### 4.4 Screen size
+
+LuminaCAD needs a window of at least 1000 × 620 pixels. On small screens (1024 × 768, 1366 × 768) it rearranges itself:
+- the presets become a drop-down list;
+- the view toolbar takes two rows;
+- the settings column scrolls.
+
+On Windows with display scaling above 100 % (common on laptops), Windows enlarges LuminaCAD to the right size, so it may look slightly soft. That is expected.
 
 ## 5. A tour of the window
 
@@ -352,14 +384,15 @@ No internet connection is needed: the licence is checked inside the program.
 From a terminal, the same is done with:
 
 ```
-luminacad --install-license ~/Downloads/LC-2026-0001.lic
+luminacad --install-license ~/Downloads/LC-2026-0001.lic                   (Linux)
+luminacad-cli.exe --install-license %USERPROFILE%\Downloads\LC-2026-0001.lic   (Windows)
 luminacad --license-status
 ```
 
 ## 18. Moving, backing up or removing a licence
 
 - **Back up** the `.lic` file you received, with your other important documents.
-- **New computer:** install LuminaCAD and load the same `.lic` file.
+- **New computer:** install LuminaCAD and load the same `.lic` file. The same licence file works on Windows and on Linux.
 - **Remove:** open the licence window and click **Remove licence**, or run `luminacad --remove-license`. LuminaCAD returns to the free edition. Designs taller than 150 mm are brought back to 150 mm.
 - **Never edit the licence file.** Changing even one letter, or a space, makes it invalid. If you have edited it, use the original from the e-mail.
 
@@ -403,8 +436,11 @@ Turn **Bulb: ON** and lower the **Bulb brightness** to judge the picture as it w
 
 | Problem | Cause and fix |
 |---|---|
-| LuminaCAD doesn't start; the terminal says "cannot open the X display" | It was started without a desktop (for example over SSH). Start it from the desktop, or use `ssh -X`. |
-| "needs a 24-bit TrueColor display" | Very old or remote display settings. Use a normal desktop session. |
+| Windows: "Windows protected your PC" | Click **More info**, then **Run anyway** (§4.1). |
+| Windows: nothing happens when starting it from inside the zip | Extract the zip first, then run `luminacad.exe` from the extracted folder. |
+| Windows: a command such as `luminacad.exe --selftest` prints nothing | Use `luminacad-cli.exe` for commands; `luminacad.exe` is the windowed program. |
+| Linux: LuminaCAD doesn't start; the terminal says "cannot open the X display" | It was started without a desktop (for example over SSH). Start it from the desktop, or use `ssh -X`. |
+| Linux: "needs a 24-bit TrueColor display" | Very old or remote display settings. Use a normal desktop session. |
 | The height slider stops at 150 mm | This is the free edition's limit. See Part 3. |
 | "Preset height … reduced to 150 mm" | The preset was designed taller; the free edition builds it at 150 mm. |
 | A photo won't load | See the message in §23. Re-save the photo as PNG or RGB JPEG. |
@@ -432,7 +468,7 @@ Turn **Bulb: ON** and lower the **Bulb brightness** to judge the picture as it w
 
 ## 24. Self-test and diagnostics
 
-Run `luminacad --selftest` in a terminal. It checks:
+Run `luminacad --selftest` in a terminal (on Windows: `luminacad-cli.exe --selftest` in the Command Prompt or PowerShell, from the LuminaCAD folder). It checks:
 
 - the signature code against the official test values;
 - that unsigned or altered licences are refused;
@@ -531,6 +567,8 @@ With phase p = (2πu + twist·v)·ribs, where u is the angle fraction round the 
 
 ## D. Command line
 
+On Windows use `luminacad-cli.exe` in place of `luminacad` for every command below. `luminacad.exe` is the windowed program and has no console of its own.
+
 ```
 luminacad                                    open the designer
 luminacad --export-stl OUT.stl [options]     export without opening a window
@@ -558,9 +596,11 @@ luminacad --export-stl lantern.stl --preset lithophane --height 140 --photo a.jp
 
 | What | Where |
 |---|---|
-| Program | `~/.local/bin/luminacad` (after `./install.sh`) |
-| Menu entry, icon | `~/.local/share/applications/luminacad.desktop`, `~/.local/share/icons/hicolor/scalable/apps/luminacad.svg` |
-| Installed licence | `~/.config/LuminaCAD/license.lic` (or `$XDG_CONFIG_HOME/LuminaCAD/`) |
+| Program (Windows) | Wherever you extracted the zip: `luminacad.exe`, `luminacad-cli.exe` |
+| Installed licence (Windows) | `%APPDATA%\LuminaCAD\license.lic` (usually `C:\Users\<you>\AppData\Roaming\LuminaCAD`) |
+| Program (Linux) | `~/.local/bin/luminacad` (after `./install.sh`) |
+| Menu entry, icon (Linux) | `~/.local/share/applications/luminacad.desktop`, `~/.local/share/icons/hicolor/scalable/apps/luminacad.svg` |
+| Installed licence (Linux) | `~/.config/LuminaCAD/license.lic` (or `$XDG_CONFIG_HOME/LuminaCAD/`) |
 | Designs | LuminaCAD 1.0 does not save design files; export the STL. |
 
 ## F. Licence file format

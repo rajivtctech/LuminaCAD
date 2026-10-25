@@ -1,6 +1,6 @@
 # LuminaCAD
 
-**Design 3D-printable lamp shades and photo lithophanes on Linux.**
+**Design 3D-printable lamp shades and photo lithophanes on Windows and Linux.**
 
 ![LuminaCAD](docs/img/main-window.png)
 
@@ -17,15 +17,19 @@ LuminaCAD is a parametric lamp-shade designer:
 
 ## Download
 
-Get **`luminacad-1.0.0-linux-x86_64.tar.gz`** from [Releases](../../releases), then:
+From [Releases](../../releases/latest):
+
+**Windows 10 / 11:** `luminacad-1.0.1-windows-x64.zip`. Extract it anywhere and double-click `luminacad.exe`; there is no installer and no admin rights are needed. If Windows says *"Windows protected your PC"*, click **More info**, then **Run anyway**.
+
+**Linux:** `luminacad-1.0.1-linux-x86_64.tar.gz`. Needs glibc 2.35 or newer (Ubuntu 22.04+, Debian 12+, Fedora 36+, Mint 21+), on an X11 or Wayland desktop.
 
 ```
-tar xzf luminacad-1.0.0-linux-x86_64.tar.gz
-cd luminacad-1.0.0-linux-x86_64
+tar xzf luminacad-1.0.1-linux-x86_64.tar.gz
+cd luminacad-1.0.1-linux-x86_64
 ./install.sh
 ```
 
-LuminaCAD then appears in your application menu under **Graphics**. It needs 64-bit Linux with glibc 2.35 or newer (Ubuntu 22.04+, Debian 12+, Fedora 36+, Mint 21+), on an X11 or Wayland desktop.
+The Linux installer adds LuminaCAD to your application menu under **Graphics**.
 
 ## Free and Pro
 
@@ -35,7 +39,7 @@ LuminaCAD then appears in your application menu under **Graphics**. It needs 64-
 | Shade height | up to **150 mm** | up to **280 mm** |
 | Every shape, pattern, lithophane, fitter and preset | ✓ | ✓ |
 
-It is the same program. To upgrade, load the Pro licence file you receive into the program you already have: **Licence** button, top right. No reinstall is needed and no internet connection is involved. Pro licences: **[tctech.co.in](https://tctech.co.in)**.
+It is the same program on both systems, and a licence file works on either. To upgrade, load the Pro licence file you receive into the program you already have: **Licence** button, top right. No reinstall is needed and no internet connection is involved. Pro licences: **[tctech.co.in](https://tctech.co.in)**.
 
 ## Documentation
 
