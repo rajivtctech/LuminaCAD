@@ -1,6 +1,6 @@
 # LuminaCAD User Guide
 
-**LuminaCAD 1.1** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.2, 25 October 2026
+**LuminaCAD 1.2** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.3, 25 October 2026
 
 ![The LuminaCAD window](img/main-window.png)
 
@@ -25,7 +25,7 @@
 12. Section 4: Lamp socket ring (fitter)
 13. The 3D view and its toolbar
 14. Diagnostics and the 2D profile
-15. Exporting the STL
+15. Saving, opening and exporting
 
 **Part 3: Free and Pro editions**
 16. What the editions are
@@ -51,6 +51,7 @@
 - F. Licence file format
 - G. Mouse and keyboard
 - H. Glossary
+- I. Design file format
 
 ---
 
@@ -94,7 +95,7 @@ Both downloads are on the **Releases** page of the LuminaCAD GitHub repository (
 
 ### 4.1 Windows 10 and 11
 
-1. Download `luminacad-1.1.0-windows-x64.zip`.
+1. Download `luminacad-1.2.0-windows-x64.zip`.
 2. Right-click the zip, choose **Extract All…**, and extract it somewhere permanent, for example `Documents\LuminaCAD`. Don't run it from inside the zip.
 3. Open the extracted folder and double-click **luminacad.exe**.
 4. The first time, Windows may show **"Windows protected your PC"**. This appears for any new program that is not yet widely downloaded. Click **More info**, then **Run anyway**. Windows remembers your choice.
@@ -110,12 +111,12 @@ luminacad-cli.exe --selftest
 
 ### 4.2 Linux
 
-1. Download `luminacad-1.1.0-linux-x86_64.tar.gz`.
+1. Download `luminacad-1.2.0-linux-x86_64.tar.gz`.
 2. Unpack it and run the installer. Open a terminal and type:
 
    ```
-   tar xzf luminacad-1.1.0-linux-x86_64.tar.gz
-   cd luminacad-1.1.0-linux-x86_64
+   tar xzf luminacad-1.2.0-linux-x86_64.tar.gz
+   cd luminacad-1.2.0-linux-x86_64
    ./install.sh
    ```
 
@@ -133,14 +134,14 @@ Each download has a `.sha256` file beside it on the release page. To confirm a d
 - **Windows (PowerShell):**
 
   ```
-  Get-FileHash luminacad-1.1.0-windows-x64.zip
+  Get-FileHash luminacad-1.2.0-windows-x64.zip
   ```
 
   Compare the hash it prints with the one in the `.sha256` file.
 - **Linux:** run the following in the folder that holds both files. It should print `OK`.
 
   ```
-  sha256sum -c luminacad-1.1.0-linux-x86_64.tar.gz.sha256
+  sha256sum -c luminacad-1.2.0-linux-x86_64.tar.gz.sha256
   ```
 
 ### 4.4 Screen size and UI scale
@@ -170,6 +171,7 @@ On small screens (1024 × 768, 1366 × 768 at 100 %) LuminaCAD rearranges itself
 - **Presets:** six ready-made designs. One click loads one; you can then change anything. See §8.
 - **?:** the About box, with the version and edition.
 - **Licence button:** shows `FREE · ≤150 mm · Upgrade` in the free edition and `PRO · Licensed` in Pro. Click it to see or install a licence.
+- **Open / Save:** open a saved design, or save the current one as a `.lcad` design file (§15.1). **Save •** means there are unsaved changes.
 - **Export STL:** saves the current design as an STL file for your slicer.
 
 **Left column:**
@@ -349,7 +351,32 @@ The picture sharpens a moment after you stop dragging. While you drag, LuminaCAD
 | **Triangles** | Size of the 3D model. Most slicers handle a million or more. |
 | **Fits / Exceeds bed** | Green when the shade fits the bed chosen in the toolbar, red when not. |
 
-## 15. Exporting the STL
+## 15. Saving, opening and exporting
+
+### 15.1 Saving and opening designs
+
+A **design file** (`.lcad`) keeps everything about a lamp shade so you can come back to it later:
+- the shape, pattern, lithophane and socket settings;
+- the filament colour;
+- **your photos**, stored inside the file, so the design stays complete even if you move or delete the originals.
+
+| To | Do |
+|---|---|
+| Save | Click **Save** (top right) or press **Ctrl S**. The first time, choose a folder and a name; afterwards Save updates the same file. |
+| Save under a new name | **Ctrl Shift S** |
+| Open | Click **Open** or press **Ctrl O**, then pick a `.lcad` file. |
+| Open from your desktop | On Linux, double-click a `.lcad` file (after `./install.sh`). On Windows, right-click it → **Open with** → **Choose another app** → browse to `luminacad.exe` and tick **Always**. |
+
+The window title shows the design's name. A **•** before it (and **Save •**) means there are changes you have not saved. If you close LuminaCAD or open another design with unsaved changes, it asks whether to save them: **Save**, **Don't save**, or **Cancel**.
+
+- **Sharing.** A design is one file: e-mail it, or keep it with your other projects. Anyone with LuminaCAD can open it.
+- **Free and Pro.** Both editions open every design. A design made taller than 150 mm in Pro opens in the free edition at 150 mm, and the status bar says so. If you then save it from the free edition, it is saved at 150 mm.
+- **File size.**
+  - Each photo is stored once, even if it is used on several faces, at up to 800 pixels on its longest side (far more detail than a lithophane panel can show).
+  - A design with the sample pictures is under 1 KB; one with four photos is typically 0.5–1 MB.
+- **Damaged files.** If a photo inside a design is damaged, LuminaCAD opens the rest of the design, puts a sample picture on that face, and tells you.
+
+### 15.2 Exporting the STL
 
 Click **Export STL**. In the save window:
 
@@ -580,7 +607,9 @@ With phase p = (2πu + twist·v)·ribs, where u is the angle fraction round the 
 On Windows use `luminacad-cli.exe` in place of `luminacad` for every command below. `luminacad.exe` is the windowed program and has no console of its own.
 
 ```
-luminacad                                    open the designer
+luminacad [DESIGN.lcad]                      open the designer (and a design)
+luminacad --open DESIGN.lcad ...             start from a saved design (with --export-stl or --screenshot)
+luminacad --save-design OUT.lcad [options]   build a design from a preset/photos and save it
 luminacad --export-stl OUT.stl [options]     export without opening a window
     --preset lithophane|hex-litho|pleated|lotus|origami|vase
     --height MM                              limited to the edition maximum
@@ -612,7 +641,7 @@ luminacad --export-stl lantern.stl --preset lithophane --height 140 --photo a.jp
 | Menu entry, icon (Linux) | `~/.local/share/applications/luminacad.desktop`, `~/.local/share/icons/hicolor/scalable/apps/luminacad.svg` |
 | Installed licence (Linux) | `~/.config/LuminaCAD/license.lic` (or `$XDG_CONFIG_HOME/LuminaCAD/`) |
 | Settings (UI scale) | `settings.ini` in the same folder as the licence |
-| Designs | LuminaCAD does not save design files yet; export the STL. |
+| Designs | `.lcad` files wherever you save them (§15.1); the save window starts in Documents |
 
 ## F. Licence file format
 
@@ -643,6 +672,8 @@ A licence is UTF-8 text with one `key=value` per line:
 | Double-click a slider's label | Type an exact value; the typing replaces the old value |
 | Enter / Tab | Apply a typed value |
 | Esc | Cancel typing; close a list, dialog or the file window |
+| Ctrl O | Open a design |
+| Ctrl S / Ctrl Shift S | Save the design / save under a new name |
 | Ctrl + / Ctrl − | Larger / smaller UI scale |
 | Ctrl 0 | UI scale back to Auto |
 | ↑ / ↓ in the file window | Move the selection |
@@ -662,6 +693,28 @@ A licence is UTF-8 text with one `key=value` per line:
 | **Vase mode** | A slicer setting that prints one continuous spiral outer wall. |
 | **Watertight** | A model whose surface is fully closed, so slicers can tell inside from outside. |
 | **Ed25519** | A modern digital-signature method, used to sign Pro licences. |
+
+
+## I. Design file format
+
+A `.lcad` file is UTF-8 text, one `key=value` per line, so it can be read, compared and kept in version control. Lines starting with `#` are comments.
+
+| Key | Meaning |
+|---|---|
+| `format` | File format version (1) |
+| `preset` | The preset last applied (informational) |
+| `height`, `bottom_diameter`, `top_diameter`, `wall`, `bulge`, `rib_depth`, `twist`, `litho_min`, `litho_max`, `socket_diameter`, `ring_height` | Millimetres or degrees, as in Appendix A |
+| `frame_border` | Fraction of the panel (0.10 = 10 %) |
+| `profile`, `pattern`, `fitter`, `photo_fit` | Option numbers, in the order the lists show them, starting at 0 |
+| `flat_sides`, `ribs`, `spokes`, `mesh_resolution` | Whole numbers |
+| `lithophane`, `invert`, `mirror` | 1 = on, 0 = off |
+| `filament` | Preview colour swatch, 0–5 |
+| `slot0` … `slot7` | `sample:N` for built-in picture N, or `image:N` for embedded photo N |
+| `image0`, `image1`, … | `png:` followed by the photo as a base64-encoded PNG |
+
+- **Out-of-range values** are brought into range when the file is opened, and the height is held to the edition's limit.
+- **Unknown keys** are ignored, so files from newer versions still open.
+- **Saving** first writes a temporary file and then replaces the old one, so a failed save never destroys the previous version.
 
 ---
 
