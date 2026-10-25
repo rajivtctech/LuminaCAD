@@ -1,6 +1,6 @@
 # LuminaCAD User Guide
 
-**LuminaCAD 1.0.1** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.1, 25 October 2026
+**LuminaCAD 1.1** for Windows and Linux · Parametric 3D-printable lamp shade & lithophane designer · Guide revision 1.2, 25 October 2026
 
 ![The LuminaCAD window](img/main-window.png)
 
@@ -94,7 +94,7 @@ Both downloads are on the **Releases** page of the LuminaCAD GitHub repository (
 
 ### 4.1 Windows 10 and 11
 
-1. Download `luminacad-1.0.1-windows-x64.zip`.
+1. Download `luminacad-1.1.0-windows-x64.zip`.
 2. Right-click the zip, choose **Extract All…**, and extract it somewhere permanent, for example `Documents\LuminaCAD`. Don't run it from inside the zip.
 3. Open the extracted folder and double-click **luminacad.exe**.
 4. The first time, Windows may show **"Windows protected your PC"**. This appears for any new program that is not yet widely downloaded. Click **More info**, then **Run anyway**. Windows remembers your choice.
@@ -110,12 +110,12 @@ luminacad-cli.exe --selftest
 
 ### 4.2 Linux
 
-1. Download `luminacad-1.0.1-linux-x86_64.tar.gz`.
+1. Download `luminacad-1.1.0-linux-x86_64.tar.gz`.
 2. Unpack it and run the installer. Open a terminal and type:
 
    ```
-   tar xzf luminacad-1.0.1-linux-x86_64.tar.gz
-   cd luminacad-1.0.1-linux-x86_64
+   tar xzf luminacad-1.1.0-linux-x86_64.tar.gz
+   cd luminacad-1.1.0-linux-x86_64
    ./install.sh
    ```
 
@@ -133,24 +133,32 @@ Each download has a `.sha256` file beside it on the release page. To confirm a d
 - **Windows (PowerShell):**
 
   ```
-  Get-FileHash luminacad-1.0.1-windows-x64.zip
+  Get-FileHash luminacad-1.1.0-windows-x64.zip
   ```
 
   Compare the hash it prints with the one in the `.sha256` file.
 - **Linux:** run the following in the folder that holds both files. It should print `OK`.
 
   ```
-  sha256sum -c luminacad-1.0.1-linux-x86_64.tar.gz.sha256
+  sha256sum -c luminacad-1.1.0-linux-x86_64.tar.gz.sha256
   ```
 
-### 4.4 Screen size
+### 4.4 Screen size and UI scale
 
-LuminaCAD needs a window of at least 1000 × 620 pixels. On small screens (1024 × 768, 1366 × 768) it rearranges itself:
+**UI scale** enlarges everything in LuminaCAD (text, buttons, sliders and the 3D view) for high-resolution screens. LuminaCAD redraws at the screen's full resolution, so it stays sharp at any scale.
+
+- **Auto** (the default) follows your desktop's display scaling: *Settings → Display → Scale* on Windows, or the display scale of KDE, GNOME and other Linux desktops. A laptop set to 150 % shows LuminaCAD at 150 %.
+- To choose a size yourself, use the **UI scale** list at the bottom right of the window: 100 %, 125 %, 150 %, 175 %, 200 %, 250 % or 300 %.
+- **Keyboard:** **Ctrl +** makes everything larger, **Ctrl −** smaller, and **Ctrl 0** goes back to Auto.
+- Your choice is remembered next time.
+- On Windows, moving the window to a monitor with a different scale adjusts it automatically.
+
+LuminaCAD's layout needs at least 1000 × 620 units of space. If the window is too small for the scale you chose, LuminaCAD uses the largest scale that fits, and the label shows it in amber, for example **UI scale (124% fits)**. Make the window larger, or maximise it, to get the full scale.
+
+On small screens (1024 × 768, 1366 × 768 at 100 %) LuminaCAD rearranges itself:
 - the presets become a drop-down list;
 - the view toolbar takes two rows;
 - the settings column scrolls.
-
-On Windows with display scaling above 100 % (common on laptops), Windows enlarges LuminaCAD to the right size, so it may look slightly soft. That is expected.
 
 ## 5. A tour of the window
 
@@ -449,7 +457,9 @@ Turn **Bulb: ON** and lower the **Bulb brightness** to judge the picture as it w
 | The picture is faint | Raise **Max wall**; print at 100 % infill; use a brighter bulb. |
 | Dark specks in the printed picture | Infill below 100 %, or gaps between walls. Use 100 % infill. |
 | "Exceeds … bed!" | Choose your printer's bed in the toolbar, then reduce the diameters or height. |
-| The 3D view is slow | Use **Mesh resolution: High** or **Draft** while designing; switch to Ultra before exporting. |
+| The 3D view is slow | Use **Mesh resolution: High** or **Draft** while designing, and switch to Ultra before exporting. At large UI scales the view has more pixels to draw: maximise only when needed, or lower the UI scale. |
+| Everything is too small or too large | Use the **UI scale** list (bottom right) or **Ctrl + / Ctrl −** (§4.4). |
+| The UI scale label is amber, "… fits" | The window is too small for the chosen scale; enlarge or maximise it (§4.4). |
 | The ring doesn't fit the lamp holder | Measure the threaded sleeve and set **Socket hole diameter** to that plus 0.5 mm. |
 
 ## 23. Messages explained
@@ -601,7 +611,8 @@ luminacad --export-stl lantern.stl --preset lithophane --height 140 --photo a.jp
 | Program (Linux) | `~/.local/bin/luminacad` (after `./install.sh`) |
 | Menu entry, icon (Linux) | `~/.local/share/applications/luminacad.desktop`, `~/.local/share/icons/hicolor/scalable/apps/luminacad.svg` |
 | Installed licence (Linux) | `~/.config/LuminaCAD/license.lic` (or `$XDG_CONFIG_HOME/LuminaCAD/`) |
-| Designs | LuminaCAD 1.0 does not save design files; export the STL. |
+| Settings (UI scale) | `settings.ini` in the same folder as the licence |
+| Designs | LuminaCAD does not save design files yet; export the STL. |
 
 ## F. Licence file format
 
@@ -632,6 +643,8 @@ A licence is UTF-8 text with one `key=value` per line:
 | Double-click a slider's label | Type an exact value; the typing replaces the old value |
 | Enter / Tab | Apply a typed value |
 | Esc | Cancel typing; close a list, dialog or the file window |
+| Ctrl + / Ctrl − | Larger / smaller UI scale |
+| Ctrl 0 | UI scale back to Auto |
 | ↑ / ↓ in the file window | Move the selection |
 | Ctrl + click in the photo window | Choose several photos |
 | Double-click in the file window | Open a folder, or choose a file |
